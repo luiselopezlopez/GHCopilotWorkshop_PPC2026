@@ -75,7 +75,7 @@ jobs:
 
       - name: Close Lab 1 issue
         run: |
-          ISSUE_NUMBER=$(gh issue list --label workshop --state open --json number --jq '.[0].number')
+          ISSUE_NUMBER=$(gh issue list --label workshop-lab1 --state open --json number --jq '.[0].number')
           if [ -n "$ISSUE_NUMBER" ]; then
             gh issue close "$ISSUE_NUMBER" \
               --comment "✅ Lab 1 completado — el Lab 2 ya está disponible en un nuevo issue."
@@ -85,12 +85,16 @@ jobs:
 
       - name: Create Lab 2 issue
         run: |
+          gh label create "workshop-lab2" \
+            --description "Lab 2 — Ejercicios 5–8" \
+            --color "e4e669" 2>/dev/null || true
           REPO="${{ github.repository }}"
           BODY=$(sed "s|{{full_repo_name}}|${REPO}|g" .github/steps/2-lab2.md)
           gh issue create \
             --title "Lab 2 — Ejercicios 5–8: Customizaciones de Copilot" \
             --body "$BODY" \
-            --label "workshop"
+            --label "workshop" \
+            --label "workshop-lab2"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

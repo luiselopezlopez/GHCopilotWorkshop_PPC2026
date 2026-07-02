@@ -23,6 +23,9 @@ jobs:
           gh label create "workshop" \
             --description "Sigue el progreso del workshop" \
             --color "0075ca" 2>/dev/null || true
+          gh label create "workshop-lab1" \
+            --description "Lab 1 — Ejercicios 1–4" \
+            --color "e4e669" 2>/dev/null || true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -33,6 +36,7 @@ jobs:
           gh issue create \
             --title "Lab 1 — Ejercicios 1–4: Ask, Plan y Agent" \
             --body "$BODY" \
-            --label "workshop"
+            --label "workshop" \
+            --label "workshop-lab1"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

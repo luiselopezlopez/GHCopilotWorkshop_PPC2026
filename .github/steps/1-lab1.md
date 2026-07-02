@@ -26,8 +26,10 @@
 
    ```bash
    python -m venv .venv
-   source .venv/bin/activate          # Linux/macOS
-   # .venv\Scripts\Activate.ps1       # Windows PowerShell
+   # Linux/macOS:
+   source .venv/bin/activate
+   # Windows PowerShell:
+   # .venv\Scripts\Activate.ps1
    pip install -r backend/requirements.txt
    ```
 
@@ -173,7 +175,13 @@ Cuando `pytest backend/tests/` pase limpio:
    git push
    ```
 
-2. Abre un **Pull Request** de `ejercicio-4/fix-startup-bug` → `main`.
+2. Crea el Pull Request en GitHub:
+
+   ```bash
+   gh pr create --base main --title "fix: ejercicio 4 — corrección bug de arranque" --body "Corrección del bug de arranque identificado en los ejercicios 1–4."
+   ```
+
+   O abre la URL que Git imprime en el terminal tras el `push` para crearlo desde la interfaz web.
 
 3. Espera a que GitHub Actions valide los tests (~1 minuto). **Fusiona el PR** cuando pasen.
 

@@ -224,7 +224,13 @@ Cuando los cinco archivos estén en `.github/`:
    git push
    ```
 
-2. Abre un **Pull Request** de `ejercicio-8/customizations` → `main`.
+2. Crea el Pull Request en GitHub:
+
+   ```bash
+   gh pr create --base main --title "feat: ejercicio 8 — customizaciones de Copilot" --body "Archivos de customización colocados en .github/ para los ejercicios 5–8."
+   ```
+
+   O abre la URL que Git imprime en el terminal tras el `push` para crearlo desde la interfaz web.
 
 3. Espera a que GitHub Actions valide los archivos. **Fusiona el PR** cuando pasen.
 

@@ -82,7 +82,7 @@ jobs:
 
       - name: Close Lab 2 issue
         run: |
-          ISSUE_NUMBER=$(gh issue list --label workshop --state open --json number --jq '.[0].number')
+          ISSUE_NUMBER=$(gh issue list --label workshop-lab2 --state open --json number --jq '.[0].number')
           if [ -n "$ISSUE_NUMBER" ]; then
             gh issue close "$ISSUE_NUMBER" \
               --comment "✅ Lab 2 completado — ¡workshop finalizado!"
