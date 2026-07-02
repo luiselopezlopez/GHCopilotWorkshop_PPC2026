@@ -6,8 +6,9 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
+  issues: write
 
 jobs:
   validate-ejercicio4:
@@ -47,7 +48,7 @@ jobs:
             pytest backend/tests/ ✅
             ```
 
-            Una vez mergeado, recarga la página principal del repositorio para ver las instrucciones de los ejercicios 5–8.
+            Una vez mergeado, el issue del Lab 1 se cerrará y se abrirá el del Lab 2 automáticamente.
 
       - name: Comment on failure
         if: failure()
@@ -71,14 +72,25 @@ jobs:
     if: startsWith(github.head_ref, 'ejercicio-4/') && github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: main
 
-      - name: Update README to ejercicios 5–8 instructions
-        run: cp .github/steps/2-lab2.md README.md
+      - name: Close Lab 1 issue
+        run: |
+          ISSUE_NUMBER=$(gh issue list --label workshop --state open --json number --jq '.[0].number')
+          if [ -n "$ISSUE_NUMBER" ]; then
+            gh issue close "$ISSUE_NUMBER" \
+              --comment "✅ Lab 1 completado — el Lab 2 ya está disponible en un nuevo issue."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit ejercicios 5–8 README
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: "chore: ejercicio 4 complete — ejercicios 5–8 instructions ready"
-          default_author: github_actions
+      - name: Create Lab 2 issue
+        run: |
+          REPO="${{ github.repository }}"
+          BODY=$(sed "s|{{full_repo_name}}|${REPO}|g" .github/steps/2-lab2.md)
+          gh issue create \
+            --title "Lab 2 — Ejercicios 5–8: Customizaciones de Copilot" \
+            --body "$BODY" \
+            --label "workshop"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

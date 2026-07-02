@@ -1,4 +1,30 @@
-# ✅ Ejercicio 4 completado — Ejercicios 5–8: Customizaciones de Copilot
+## 🚀 Paso 0: Abrir el Codespace y crear tu rama de trabajo
+
+**Antes de hacer cualquier otra cosa**, sigue estos pasos en orden.
+
+1. Abre este repositorio en un Codespace:
+
+   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/{{full_repo_name}}?quickstart=1)
+
+2. Espera a que VS Code cargue en el navegador y las extensiones terminen de instalarse.
+
+3. En el terminal integrado, crea y publica tu rama de trabajo:
+
+   ```bash
+   git checkout -b ejercicio-8/customizations
+   git push -u origin ejercicio-8/customizations
+   ```
+
+4. Confirma que estás en la rama correcta:
+
+   ```bash
+   git branch --show-current
+   # Resultado esperado: ejercicio-8/customizations
+   ```
+
+---
+
+## ✅ Ejercicio 4 completado — Ejercicios 5–8: Customizaciones de Copilot
 
 ¡Buen trabajo! Has diagnosticado y corregido el bug de arranque usando Ask, Plan y Agent.
 
@@ -186,21 +212,23 @@ Verifica que:
 - [ ] La implementación no distribuye SQL fuera del servicio
 - [ ] Termina con una validación estrecha y explicable
 
-### Crear el PR de validación
+### ✅ Cerrar este lab: abrir el PR
 
 Cuando los cinco archivos estén en `.github/`:
 
-1. Crea una rama:
+1. Haz commit y push de los archivos de customización:
+
    ```bash
-   git checkout -b ejercicio-8/customizations
    git add .github/
    git commit -m "feat: add Copilot customizations for SQLite persistence"
-   git push origin ejercicio-8/customizations
+   git push
    ```
 
 2. Abre un **Pull Request** de `ejercicio-8/customizations` → `main`.
 
-3. Espera a que GitHub Actions valide los archivos. Si pasa, **fusiona el PR** para completar el workshop.
+3. Espera a que GitHub Actions valide los archivos. **Fusiona el PR** cuando pasen.
+
+> Al fusionar, este issue se cerrará automáticamente y el workshop quedará completado 🎉
 
 ---
 

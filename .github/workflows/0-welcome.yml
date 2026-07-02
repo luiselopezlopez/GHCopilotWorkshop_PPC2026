@@ -4,11 +4,12 @@ on:
   create:
 
 permissions:
-  contents: write
+  contents: read
+  issues: write
 
 jobs:
   on-start:
-    name: Initialize workshop content
+    name: Create Lab 1 issue
     runs-on: ubuntu-latest
     # Only run in copies of this template, not in the template itself
     if: >
@@ -17,11 +18,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Replace README with exercises 1–4 instructions
-        run: cp .github/steps/0-welcome.md README.md
+      - name: Create workshop label
+        run: |
+          gh label create "workshop" \
+            --description "Sigue el progreso del workshop" \
+            --color "0075ca" 2>/dev/null || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit welcome README
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: "chore: start workshop — exercises 1–4 instructions ready"
-          default_author: github_actions
+      - name: Create Lab 1 issue
+        run: |
+          REPO="${{ github.repository }}"
+          BODY=$(sed "s|{{full_repo_name}}|${REPO}|g" .github/steps/1-lab1.md)
+          gh issue create \
+            --title "Lab 1 — Ejercicios 1–4: Ask, Plan y Agent" \
+            --body "$BODY" \
+            --label "workshop"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

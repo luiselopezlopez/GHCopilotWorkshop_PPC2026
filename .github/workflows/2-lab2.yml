@@ -6,8 +6,9 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
+  issues: write
 
 jobs:
   validate-ejercicio8:
@@ -78,14 +79,23 @@ jobs:
     if: startsWith(github.head_ref, 'ejercicio-8/') && github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: main
 
-      - name: Update README to finish page
-        run: cp .github/steps/X-finish.md README.md
+      - name: Close Lab 2 issue
+        run: |
+          ISSUE_NUMBER=$(gh issue list --label workshop --state open --json number --jq '.[0].number')
+          if [ -n "$ISSUE_NUMBER" ]; then
+            gh issue close "$ISSUE_NUMBER" \
+              --comment "✅ Lab 2 completado — ¡workshop finalizado!"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit finish README
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: "chore: workshop complete 🎉"
-          default_author: github_actions
+      - name: Create completion issue
+        run: |
+          gh issue create \
+            --title "🎉 ¡Workshop completado!" \
+            --body "$(cat .github/steps/X-finish.md)" \
+            --label "workshop"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

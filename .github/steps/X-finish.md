@@ -2,6 +2,10 @@
 
 Has completado los **8 ejercicios** del **GitHub Copilot Workshop — PPC 2026**.
 
+Este issue se cierra automáticamente. A continuación tienes un resumen de lo que aprendiste.
+
+---
+
 ## Lo que aprendiste
 
 ### Ejercicios 1–4 — Modos de Copilot (Ask, Plan, Agent)
