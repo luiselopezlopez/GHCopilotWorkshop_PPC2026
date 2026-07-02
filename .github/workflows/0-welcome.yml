@@ -17,11 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Replace README with Lab 1 instructions
+      - name: Replace README with exercises 1–4 instructions
         run: cp .github/steps/0-welcome.md README.md
 
       - name: Commit welcome README
         uses: EndBug/add-and-commit@v9
         with:
-          message: "chore: start workshop — Lab 1 instructions ready"
+          message: "chore: start workshop — exercises 1–4 instructions ready"
           default_author: github_actions

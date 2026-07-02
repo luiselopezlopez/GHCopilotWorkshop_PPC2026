@@ -1,21 +1,22 @@
 # 🎉 ¡Workshop completado!
 
-Has completado los dos labs del **GitHub Copilot Workshop — PPC 2026**.
+Has completado los **8 ejercicios** del **GitHub Copilot Workshop — PPC 2026**.
 
 ## Lo que aprendiste
 
-### Lab 1 — Ask, Plan y Agent
-- Hacer onboard de un codebase con Copilot.
-- Diagnosticar un bug de startup con **Ask**.
-- Acotar el alcance del cambio con **Plan**.
-- Ejecutar una corrección precisa con **Agent**.
-- Validar con `pytest`.
+### Ejercicios 1–4 — Modos de Copilot (Ask, Plan, Agent)
 
-### Lab 2 — Customizaciones de Copilot
-- Colocar y activar **instructions** globales y por alcance de archivo.
-- Crear y reusar un **prompt** para una tarea puntual.
-- Usar una **skill** para empaquetar un procedimiento repetible.
-- Delegar ejecución a un **agent** especializado.
+- **Ejercicio 1**: Hacer onboard de un codebase con Copilot Agent.
+- **Ejercicio 2**: Diagnosticar un bug de startup con **Ask**.
+- **Ejercicio 3**: Acotar el alcance del cambio con **Plan**.
+- **Ejercicio 4**: Ejecutar una corrección precisa con **Agent** y validar con `pytest`.
+
+### Ejercicios 5–8 — Customizaciones de Copilot
+
+- **Ejercicio 5**: Colocar y activar **instructions** globales y por alcance de archivo.
+- **Ejercicio 6**: Crear y reusar un **prompt** para una tarea puntual.
+- **Ejercicio 7**: Usar una **skill** para empaquetar un procedimiento repetible.
+- **Ejercicio 8**: Delegar ejecución a un **agent** especializado.
 
 ## Diferencias clave
 

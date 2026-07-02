@@ -1,4 +1,4 @@
-# Lab 1: Ask, Plan y Agent
+# Ejercicios 1–4: Ask, Plan y Agent
 
 ## Objetivo
 
@@ -10,11 +10,11 @@ Usar GitHub Copilot de forma guiada para:
 4. implementar la correccion con Agent,
 5. validarla con un test estrecho.
 
-El objetivo funcional del lab es corregir el bug que impide el arranque de la aplicacion web de notas.
+El objetivo funcional de estos ejercicios es corregir el bug que impide el arranque de la aplicacion web de notas.
 
 ## Resultado esperado
 
-Al terminar este lab deberias ser capaz de:
+Al terminar estos ejercicios deberias ser capaz de:
 
 - explicar la arquitectura actual de la app,
 - describir donde se produce el fallo de arranque,
@@ -41,7 +41,7 @@ pip install -r backend\requirements.txt
 python -m compileall backend
 ```
 
-Ahora ejecuta exactamente este comando para reproducir el problema del laboratorio:
+Ahora ejecuta exactamente este comando para reproducir el problema del ejercicio 2:
 
 ```powershell
 uvicorn app.main:app --app-dir backend --reload
@@ -51,15 +51,15 @@ La aplicacion debe fallar al arrancar. Copia o conserva el traceback porque lo u
 
 ## Flujo de trabajo recomendado
 
-En este lab no empieces editando. Sigue esta secuencia exacta:
+En estos ejercicios no empieces editando. Sigue esta secuencia exacta:
 
-1. `Ask` para hacer onboard.
+1. `Agent` para hacer onboard.
 2. `Ask` para diagnosticar el bug.
 3. `Plan` para acotar.
 4. `Agent` para implementar.
 5. terminal para validar.
 
-## Paso 1: Onboard del codebase con Ask
+## Ejercicio 1: Onboard del codebase con Agent
 
 Abre Copilot Chat en modo `Agent`.
 
@@ -67,11 +67,17 @@ Pega este prompt exacto:
 
 ```text
 /init onboard the code on the backend folder, which is where the application code lives. Ignore the folders deck, docs and resources. Also ignore any .md file you find in the repo as they are not related with the codebase
-```.ne
+```
 
+### Validacion del ejercicio 1
 
+Antes de continuar, verifica que puedes responder sin mirar el codigo:
 
-## Paso 2: Diagnosticar el bug con Ask
+- ¿Cuál es la arquitectura general de la app?
+- ¿Qué hace cada capa principal (`routes`, `services`, `schemas`)?
+- ¿Qué archivos son más sensibles al arranque?
+
+## Ejercicio 2: Diagnosticar el bug con Ask
 
 Con el traceback del terminal a mano, pega este segundo prompt exacto en modo `Ask`:
 
@@ -87,7 +93,15 @@ Lee el codigo relevante y dime:
 4. cual seria la correccion minima razonable.
 ```
 
-## Paso 3: Acotar con Plan
+### Validacion del ejercicio 2
+
+Antes de continuar, verifica que puedes identificar:
+
+- La causa raíz exacta del bug
+- El archivo y la línea donde se produce
+- La corrección mínima necesaria
+
+## Ejercicio 3: Acotar con Plan
 
 Cambia Copilot Chat al modo `Plan`.
 
@@ -104,7 +118,7 @@ Genera un plan minimo para corregir el bug de arranque de la app con estas restr
 No implementes todavia. Solo quiero pasos concretos.
 ```
 
-## Paso 4: Revisar el plan antes de ejecutar
+### Revisar el plan antes de ejecutar
 
 Antes de aceptar el plan, comprueba que cumple esto:
 
@@ -119,7 +133,13 @@ Si el plan es demasiado grande, usa este prompt exacto:
 Reduce el plan al slice mas pequeno posible. Prefiero corregir solo el bug de startup y validar con un unico test, sin refactorizar toda la arquitectura.
 ```
 
-## Paso 5: Implementar con Agent
+### Validacion del ejercicio 3
+
+- [ ] Tienes un plan de 3 pasos o menos
+- [ ] Toca un solo archivo de producción
+- [ ] Termina con un test único y estrecho
+
+## Ejercicio 4: Implementar con Agent
 
 Pasa Copilot Chat a modo `Agent`.
 
@@ -136,7 +156,15 @@ Objetivo concreto:
 - valida al final con pytest backend/tests/test_notes_page.py.
 ```
 
-## Paso 6: Validar por terminal
+### Si Agent se va de alcance
+
+Si Agent intenta tocar demasiados archivos o reescribir demasiado, córtalo y vuelve a acotar con este prompt exacto:
+
+```text
+Deten el refactor amplio. Limita el cambio a backend/app/main.py, backend/app/services/note_service.py y backend/tests/test_notes_page.py. Corrige solo el bug de arranque y valida solo con pytest backend/tests/test_notes_page.py.
+```
+
+### Validacion del ejercicio 4
 
 Cuando Agent termine, ejecuta exactamente esto:
 
@@ -156,17 +184,9 @@ Y en otra terminal:
 Invoke-WebRequest -Uri http://127.0.0.1:8000/ | Select-Object -ExpandProperty StatusCode
 ```
 
-## Paso 7: Si Agent se va de alcance
+## Que debe observar el alumno
 
-Si Agent intenta tocar demasiados archivos o reescribir demasiado, córtalo y vuelve a acotar con este prompt exacto:
-
-```text
-Deten el refactor amplio. Limita el cambio a backend/app/main.py, backend/app/services/note_service.py y backend/tests/test_notes_page.py. Corrige solo el bug de arranque y valida solo con pytest backend/tests/test_notes_page.py.
-```
-
-## Qué debe observar el alumno
-
-Durante el ejercicio, fijate en estas señales:
+Durante los ejercicios, fijate en estas señales:
 
 - `Ask` sirve para entender y no para ejecutar cambios.
 - `Plan` es util cuando se le dan restricciones claras.
@@ -175,7 +195,7 @@ Durante el ejercicio, fijate en estas señales:
 
 ## Criterio de exito
 
-El lab se considera completado si se cumplen los cuatro puntos siguientes:
+Los ejercicios 1–4 se consideran completados si se cumplen los cuatro puntos siguientes:
 
 1. Puedes explicar la arquitectura general de la app sin mirar la solucion del docente.
 2. Has obtenido un plan pequeño y concreto.

@@ -8,6 +8,7 @@ _Aprende a usar GitHub Copilot con ejercicios prácticos y guiados en menos de 2
 - **Qué aprenderás**: Ask, Plan y Agent para diagnosticar bugs; prompts, instructions, skills y agents para añadir features.
 - **Qué construirás**: Corregirás un bug real y añadirás customizaciones de Copilot a una app web de notas con FastAPI.
 - **Duración**: Menos de 2 horas.
+- **Ejercicios**: 8 ejercicios individuales, cada uno con su propia validación.
 
 ## Cómo empezar
 

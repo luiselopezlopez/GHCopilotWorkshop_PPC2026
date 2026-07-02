@@ -1,16 +1,12 @@
-# ✅ Lab 1 completado — Lab 2: Customizaciones de Copilot
+# ✅ Ejercicio 4 completado — Ejercicios 5–8: Customizaciones de Copilot
 
 ¡Buen trabajo! Has diagnosticado y corregido el bug de arranque usando Ask, Plan y Agent.
 
 Ahora aprenderás a usar las **customizaciones de GitHub Copilot** para preparar la siguiente evolución de la app: sustituir el almacenamiento en memoria por persistencia en un archivo SQLite local.
 
-## Lab 2: Prompts, Instructions, Skills y Agents
+---
 
-### Objetivo
-
-Aprender cómo `instructions`, `prompt`, `skill` y `agent` ayudan a añadir una feature nueva manteniendo un estilo de desarrollo estándar.
-
-### Archivos de partida
+## Preparación: colocar los archivos
 
 Los archivos de customización viven en `resources/`. Tu tarea es moverlos a su ubicación correcta dentro de `.github/`:
 
@@ -21,8 +17,6 @@ Los archivos de customización viven en `resources/`. Tu tarea es moverlos a su 
 | `resources/prompts/add-sqlite-persistence.prompt.md` | `.github/prompts/add-sqlite-persistence.prompt.md` |
 | `resources/skills/notes-sqlite-persistence/SKILL.md` | `.github/skills/notes-sqlite-persistence/SKILL.md` |
 | `resources/agents/notes-feature-finisher.agent.md` | `.github/agents/notes-feature-finisher.agent.md` |
-
-### Paso 0 — Colocar los archivos
 
 ```bash
 mkdir -p .github/instructions .github/prompts .github/skills/notes-sqlite-persistence .github/agents
@@ -39,7 +33,9 @@ Confirma que quedaron colocados:
 find .github -name "*.md" | sort
 ```
 
-### Cómo se usan dentro de Copilot
+---
+
+## Cómo se activa cada tipo de customización
 
 | Tipo | Cómo se activa |
 |------|---------------|
@@ -48,7 +44,17 @@ find .github -name "*.md" | sort
 | `skill` | Se pide de forma explícita describiendo la tarea |
 | `agent` | Se selecciona el agent especializado desde el chat |
 
-### Ejercicio 1 — Instructions
+---
+
+## Ejercicio 5: Instructions
+
+### Objetivo
+
+Entender qué reglas se aplican automáticamente cuando Copilot trabaja sobre archivos del backend.
+
+### Instrucciones
+
+Abre `.github/copilot-instructions.md` y `.github/instructions/fastapi.instructions.md`.
 
 En modo **Ask**, pega:
 
@@ -63,26 +69,104 @@ Explicame:
 3. como empujan a Copilot hacia una implementacion incremental de SQLite en vez de un refactor amplio.
 ```
 
-### Ejercicio 2 — Prompt reutilizable
+### Validación
 
-Una vez colocado en `.github/prompts/`, prueba en el chat:
+Prueba el efecto real en modo **Plan** sobre un archivo del backend:
+
+```
+Revisa backend/app/services/note_service.py y propon una evolucion pequena para soportar persistencia SQLite en archivo.
+
+Restricciones:
+- manten las rutas actuales,
+- no metas SQL en las plantillas ni en las rutas,
+- valida con un unico comando pequeno.
+```
+
+Verifica que Copilot mantiene el cambio pequeño y propone una validación acotada — efecto directo de las instructions.
+
+---
+
+## Ejercicio 6: Prompt reutilizable
+
+### Objetivo
+
+Usar un prompt predefinido para arrancar siempre la conversación de diseño sobre esta feature con el mismo contexto.
+
+### Instrucciones
+
+Abre `.github/prompts/add-sqlite-persistence.prompt.md`.
+
+En modo **Ask**, pega:
+
+```
+Lee .github/prompts/add-sqlite-persistence.prompt.md y dime:
+1. que tarea puntual resuelve,
+2. por que esto es un prompt y no una instruction,
+3. que parte reforzarias para que la propuesta sea aun mas incremental.
+```
+
+### Validación
+
+Invoca el prompt reutilizable desde el chat:
 
 ```
 /add-sqlite-persistence
 ```
 
-### Ejercicio 3 — Skill
+Verifica que Copilot parte de una estructura de análisis ya preparada y que la respuesta es consistente con el contexto del prompt.
 
-En modo **Ask**:
+---
+
+## Ejercicio 7: Skill
+
+### Objetivo
+
+Entender cómo una skill empaqueta un procedimiento repetible con criterio de salida propio.
+
+### Instrucciones
+
+Abre `.github/skills/notes-sqlite-persistence/SKILL.md`.
+
+En modo **Ask**, pega:
 
 ```
 Lee .github/skills/notes-sqlite-persistence/SKILL.md y explicame por que esto es una skill y no solo un prompt.
 Quiero una explicacion centrada en el procedimiento, el criterio de salida y la reutilizacion.
 ```
 
-### Ejercicio 4 — Agent especializado
+### Validación
 
-Selecciona el agent `notes-feature-finisher` y lanza:
+Usa la skill en modo **Ask** o **Agent**:
+
+```
+Quiero que uses la skill notes-sqlite-persistence para guiar una propuesta de implementacion.
+Lee primero el flujo actual de notas, propon la capa minima de persistencia SQLite y termina con una sola validacion inicial.
+```
+
+Verifica que Copilot sigue un procedimiento más estable que con un prompt libre y que empieza entendiendo el flujo antes de proponer SQL.
+
+---
+
+## Ejercicio 8: Agent especializado
+
+### Objetivo
+
+Delegar la ejecución de una feature incremental a un agent con un rol y límites de alcance definidos.
+
+### Instrucciones
+
+Abre `.github/agents/notes-feature-finisher.agent.md`.
+
+En modo **Ask**, pega:
+
+```
+Lee .github/agents/notes-feature-finisher.agent.md y explicame:
+1. que rol especializado define,
+2. que limites de alcance tiene,
+3. por que encaja mejor con una feature incremental que con un refactor grande.
+```
+
+Después, selecciona el agent `notes-feature-finisher` y lanza:
 
 ```
 Añade persistencia SQLite en archivo a la app de notas con el cambio minimo razonable.
@@ -94,26 +178,30 @@ Condiciones:
 - valida al final con un comando pequeno antes de ampliar pruebas.
 ```
 
-### Criterio de éxito
+### Validación
 
-1. Has colocado los cinco archivos en `.github/`.
-2. Has usado cada customización con un ejemplo real.
-3. Puedes explicar para qué sirve cada una al añadir una feature.
+Verifica que:
 
-## Crear el PR del Lab 2
+- [ ] El agent trabaja con autonomía pero mantiene límites operativos claros
+- [ ] La implementación no distribuye SQL fuera del servicio
+- [ ] Termina con una validación estrecha y explicable
+
+### Crear el PR de validación
+
+Cuando los cinco archivos estén en `.github/`:
 
 1. Crea una rama:
    ```bash
-   git checkout -b lab2/customizations
+   git checkout -b ejercicio-8/customizations
    git add .github/
    git commit -m "feat: add Copilot customizations for SQLite persistence"
-   git push origin lab2/customizations
+   git push origin ejercicio-8/customizations
    ```
 
-2. Abre un **Pull Request** de `lab2/customizations` → `main`.
+2. Abre un **Pull Request** de `ejercicio-8/customizations` → `main`.
 
 3. Espera a que GitHub Actions valide los archivos. Si pasa, **fusiona el PR** para completar el workshop.
 
 ---
 
-¿Tienes dudas? Consulta [`docs/LAB2_CUSTOMIZATIONS.md`](docs/LAB2_CUSTOMIZATIONS.md).
+¿Tienes dudas? Consulta [`docs/EJERCICIOS_5_8_CUSTOMIZACIONES.md`](docs/EJERCICIOS_5_8_CUSTOMIZACIONES.md).

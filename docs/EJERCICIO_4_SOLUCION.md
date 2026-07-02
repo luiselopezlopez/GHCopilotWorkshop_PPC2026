@@ -1,4 +1,4 @@
-# Lab 1 Solution Reference
+# Ejercicio 4 — Referencia de solución
 
 ## Problema
 

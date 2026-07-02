@@ -1,10 +1,10 @@
-# Lab 2: Prompts, Instructions, Skills y Agents para una feature nueva
+# Ejercicios 5–8: Prompts, Instructions, Skills y Agents para una feature nueva
 
 ## Objetivo
 
 Usar las customizaciones de Copilot para preparar la siguiente evolucion natural de la aplicacion: sustituir el almacenamiento en memoria por persistencia en un archivo SQLite local.
 
-El objetivo del laboratorio no es construir una arquitectura compleja. El objetivo es aprender como `instructions`, `prompt`, `skill` y `agent` ayudan a añadir una feature nueva manteniendo un estilo de desarrollo estandar:
+El objetivo de estos ejercicios no es construir una arquitectura compleja. El objetivo es aprender como `instructions`, `prompt`, `skill` y `agent` ayudan a añadir una feature nueva manteniendo un estilo de desarrollo estandar:
 
 1. entender primero el diseño actual,
 2. proponer un cambio incremental,
@@ -13,7 +13,7 @@ El objetivo del laboratorio no es construir una arquitectura compleja. El objeti
 
 ## Resultado esperado
 
-Al terminar este lab deberias ser capaz de:
+Al terminar estos ejercicios deberias ser capaz de:
 
 - explicar como se usa cada tipo de customizacion al añadir una feature,
 - colocar cada archivo en su ubicacion correcta dentro de `.github/`,
@@ -29,9 +29,9 @@ Al terminar este lab deberias ser capaz de:
 - `resources/skills/notes-sqlite-persistence/SKILL.md`
 - `resources/agents/notes-feature-finisher.agent.md`
 
-## Preparacion del laboratorio
+## Preparacion
 
-Al comenzar este laboratorio, la carpeta `.github/` no debe contener ninguna customizacion del repo. Los archivos de partida viven en `resources/` y el objetivo es moverlos a su ubicacion final correcta.
+Al comenzar estos ejercicios, la carpeta `.github/` no debe contener ninguna customizacion del repo. Los archivos de partida viven en `resources/` y el objetivo es moverlos a su ubicacion final correcta.
 
 Antes de tocar nada, comprueba la situacion actual con estos comandos:
 
@@ -87,7 +87,7 @@ Sigue este orden, porque va de lo mas simple a lo mas estructurado:
 3. skill,
 4. agent.
 
-## Escenario funcional del lab
+## Escenario funcional
 
 La app actual guarda notas en memoria. Queremos preparar una evolucion pequena y razonable:
 
@@ -96,7 +96,7 @@ La app actual guarda notas en memoria. Queremos preparar una evolucion pequena y
 - no reescribir la UI,
 - no convertir el ejercicio en una migracion grande.
 
-## Ejercicio 1: Instructions
+## Ejercicio 5: Instructions
 
 Abre estos dos archivos:
 
@@ -124,7 +124,7 @@ Genera un plan pequeño para reforzar estas instructions con dos objetivos:
 - que el agente valide primero con un comando estrecho antes de ampliar el alcance.
 ```
 
-### Ejemplo de uso real de las instructions
+### Validacion del ejercicio 5
 
 Las `instructions` no se ejecutan con un comando especial. Su efecto se ve cuando pides trabajo sobre un archivo que cae dentro de `backend/**/*.py`.
 
@@ -145,7 +145,7 @@ Que deberias observar:
 2. Propone una separacion razonable entre rutas y persistencia.
 3. Suele incluir una validacion acotada porque las instructions ya se lo piden.
 
-## Ejercicio 2: Prompt reutilizable
+## Ejercicio 6: Prompt reutilizable
 
 Abre `.github/prompts/add-sqlite-persistence.prompt.md`.
 
@@ -170,11 +170,11 @@ Quiero que el prompt:
 - mantenga el foco en persistencia SQLite local.
 ```
 
-### Ejemplo de uso real del prompt
+### Validacion del ejercicio 6
 
 Una vez que el archivo existe en `.github/prompts/`, puedes reutilizarlo para arrancar siempre la conversacion de diseño sobre esta feature sin reescribir el contexto.
 
-Ejemplo de uso esperado en el chat:
+Invoca el prompt reutilizable en el chat:
 
 ```text
 /add-sqlite-persistence
@@ -192,7 +192,7 @@ Que deberias observar:
 2. Lee los archivos relevantes antes de proponer cambios.
 3. La respuesta queda mas consistente entre alumnos porque el punto de partida es comun.
 
-## Ejercicio 3: Skill
+## Ejercicio 7: Skill
 
 Abre `.github/skills/notes-sqlite-persistence/SKILL.md`.
 
@@ -219,7 +219,7 @@ Implementa el cambio acordado solo en .github/skills/notes-sqlite-persistence/SK
 Añade el caso nuevo sin convertir la skill en un documento largo o generico.
 ```
 
-### Ejemplo de uso real de la skill
+### Validacion del ejercicio 7
 
 La `skill` tiene sentido cuando la tarea coincide con un patron repetible del workshop: añadir persistencia SQLite sin romper la sencillez de la app.
 
@@ -236,7 +236,7 @@ Que deberias observar:
 2. Empieza por entender el flujo actual antes de sugerir SQL.
 3. La respuesta se parece menos a una improvisacion y mas a una receta reutilizable.
 
-## Ejercicio 4: Agent especializado
+## Ejercicio 8: Agent especializado
 
 Abre `.github/agents/notes-feature-finisher.agent.md`.
 
@@ -262,7 +262,7 @@ Objetivos:
 - utilizar los prompts, skills e instructions disponibles en el repositorio para optimizar la ejecucion de la tarea
 ```
 
-### Ejemplo de uso real del agent
+### Validacion del ejercicio 8
 
 Aqui la idea no es solo pedir consejo, sino delegar ejecucion en un rol especializado.
 
@@ -284,7 +284,7 @@ Que deberias observar:
 2. Aun asi mantiene limites operativos claros.
 3. El resultado deberia ser mas estable para una implementacion incremental que para brainstorming abierto.
 
-## Validacion conceptual
+## Validacion conceptual final
 
 Cuando termines, responde por escrito a estas cuatro preguntas:
 
@@ -302,7 +302,7 @@ Cuando termines, responde por escrito a estas cuatro preguntas:
 
 ## Criterio de exito
 
-El lab se considera completado si:
+Los ejercicios 5–8 se consideran completados si:
 
 1. has colocado correctamente los cinco archivos de `resources/` dentro de `.github/`,
 2. has usado cada customizacion con un ejemplo relacionado con persistencia SQLite,

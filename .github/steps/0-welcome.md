@@ -4,10 +4,7 @@ _Aprende a usar GitHub Copilot con ejercicios prácticos y guiados._
 
 ## Bienvenido
 
-Tu entorno está listo. En este workshop de **2 horas** usarás GitHub Copilot para:
-
-1. **Lab 1**: Diagnosticar y corregir un bug real usando Ask, Plan y Agent.
-2. **Lab 2**: Preparar customizaciones de Copilot para añadir una nueva feature.
+Tu entorno está listo. En este workshop de **2 horas** completarás **8 ejercicios** usando GitHub Copilot sobre una app real de notas con un bug de arranque y una evolución de feature pendiente.
 
 ## Configurar el entorno
 
@@ -22,25 +19,15 @@ source .venv/bin/activate          # Linux/macOS
 pip install -r backend/requirements.txt
 ```
 
-## Lab 1: Ask, Plan y Agent
+---
+
+## Ejercicio 1: Onboard del codebase con Agent
 
 ### Objetivo
 
-Usar GitHub Copilot para hacer onboard de la app y corregir el bug que impide que arranque.
+Entender la arquitectura de la app antes de tocar nada.
 
-### Reproducir el problema
-
-```bash
-uvicorn app.main:app --app-dir backend --reload
-```
-
-La app debe **fallar al arrancar**. Copia el traceback completo: lo usarás en la conversación con Copilot.
-
-### Flujo recomendado
-
-Sigue esta secuencia en orden:
-
-#### Paso 1 — Onboard con Agent
+### Instrucciones
 
 Abre Copilot Chat en modo **Agent** y pega:
 
@@ -48,7 +35,31 @@ Abre Copilot Chat en modo **Agent** y pega:
 /init onboard the code on the backend folder, which is where the application code lives. Ignore the folders deck, docs and resources. Also ignore any .md file you find in the repo as they are not related with the codebase
 ```
 
-#### Paso 2 — Diagnosticar con Ask
+### Validación
+
+Responde mentalmente (o por escrito) estas preguntas antes de continuar:
+
+- ¿Cuál es la arquitectura general de la app?
+- ¿Qué hace cada capa principal (`routes`, `services`, `schemas`)?
+- ¿Qué archivos son más sensibles al arranque?
+
+---
+
+## Ejercicio 2: Diagnosticar el bug con Ask
+
+### Objetivo
+
+Reproducir el fallo de arranque y usar Copilot para identificar la causa raíz.
+
+### Reproducir el problema
+
+```bash
+uvicorn app.main:app --app-dir backend --reload
+```
+
+La app debe **fallar al arrancar**. Copia el traceback completo.
+
+### Instrucciones
 
 Cambia a modo **Ask** y pega (sustituyendo el traceback real):
 
@@ -64,7 +75,23 @@ Lee el codigo relevante y dime:
 4. cual seria la correccion minima razonable.
 ```
 
-#### Paso 3 — Acotar con Plan
+### Validación
+
+Antes de continuar, verifica que puedes responder:
+
+- ¿Cuál es la causa raíz exacta?
+- ¿En qué archivo está?
+- ¿Cuál es la corrección mínima?
+
+---
+
+## Ejercicio 3: Acotar el alcance con Plan
+
+### Objetivo
+
+Generar un plan pequeño y verificable antes de implementar.
+
+### Instrucciones
 
 Cambia a modo **Plan** y pega:
 
@@ -79,7 +106,30 @@ Genera un plan minimo para corregir el bug de arranque de la app con estas restr
 No implementes todavia. Solo quiero pasos concretos.
 ```
 
-#### Paso 4 — Implementar con Agent
+### Validación
+
+Revisa que el plan cumple estos criterios antes de continuar:
+
+- [ ] Toca pocos archivos
+- [ ] No introduce refactors grandes
+- [ ] Corrige solo la causa raíz
+- [ ] Termina con un test único y estrecho
+
+Si el plan es demasiado grande, acótalo con:
+
+```
+Reduce el plan al slice mas pequeno posible. Prefiero corregir solo el bug de startup y validar con un unico test, sin refactorizar toda la arquitectura.
+```
+
+---
+
+## Ejercicio 4: Implementar y validar con Agent
+
+### Objetivo
+
+Ejecutar el plan acordado y confirmar que la app arranca y los tests pasan.
+
+### Instrucciones
 
 Cambia a modo **Agent** y pega:
 
@@ -94,37 +144,40 @@ Objetivo concreto:
 - valida al final con pytest backend/tests/test_notes_page.py.
 ```
 
-#### Paso 5 — Validar
+Si Agent se va de alcance, usa este prompt para redirigirlo:
+
+```
+Deten el refactor amplio. Limita el cambio a backend/app/services/note_service.py. Corrige solo el bug de arranque y valida con pytest backend/tests/test_notes_page.py.
+```
+
+### Validación
 
 ```bash
 pytest backend/tests/
 ```
 
-Todos los tests deben pasar.
+Todos los tests deben pasar. Opcionalmente, confirma que la app ya arranca:
 
-### Criterio de éxito
+```bash
+uvicorn app.main:app --app-dir backend --reload
+```
 
-1. Puedes explicar la arquitectura general de la app.
-2. Tienes un plan pequeño y concreto.
-3. La app arranca sin errores.
-4. `pytest backend/tests/` termina correctamente.
-
-## Crear el PR del Lab 1
+### Crear el PR de validación
 
 Cuando los tests pasen:
 
 1. Crea una rama desde `main`:
    ```bash
-   git checkout -b lab1/fix-startup-bug
+   git checkout -b ejercicio-4/fix-startup-bug
    git add backend/app/services/note_service.py
    git commit -m "fix: correct note loading in NoteService.load_initial_notes"
-   git push origin lab1/fix-startup-bug
+   git push origin ejercicio-4/fix-startup-bug
    ```
 
-2. Abre un **Pull Request** de `lab1/fix-startup-bug` → `main`.
+2. Abre un **Pull Request** de `ejercicio-4/fix-startup-bug` → `main`.
 
-3. Espera a que GitHub Actions valide tu PR (~1 minuto). Si pasa, **fusiona el PR** para desbloquear el Lab 2.
+3. Espera a que GitHub Actions valide tu PR (~1 minuto). Si pasa, **fusiona el PR** para desbloquear los ejercicios 5–8.
 
 ---
 
-¿Tienes dudas? Consulta [`docs/LAB1_ASK_PLAN_AGENT.md`](docs/LAB1_ASK_PLAN_AGENT.md) o [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md).
+¿Tienes dudas? Consulta [`docs/EJERCICIOS_1_4_MODOS_COPILOT.md`](docs/EJERCICIOS_1_4_MODOS_COPILOT.md) o [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md).
