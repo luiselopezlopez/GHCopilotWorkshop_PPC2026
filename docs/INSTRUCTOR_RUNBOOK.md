@@ -20,8 +20,8 @@ Hoy no vamos a usar Copilot como simple autocomplete. Vamos a usarlo como herram
 ## Agenda sugerida minuto a minuto
 
 1. 0-10 min: contexto, objetivo, prerequisitos y apertura del repo.
-2. 10-45 min: Lab 1 Ask, Plan y Agent sobre la app rota.
-3. 45-100 min: Lab 2 customizaciones orientadas a una nueva feature.
+2. 10-45 min: ejercicios 1–4 (Ask, Plan y Agent sobre la app rota).
+3. 45-100 min: ejercicios 5–8 (customizaciones orientadas a una nueva feature).
 4. 100-120 min: recap, preguntas y siguientes pasos.
 
 ## Preparacion del docente antes de entrar en sala
@@ -37,7 +37,7 @@ python -m compileall backend
 pytest backend\tests\test_notes_page.py
 ```
 
-Para demostrar el bug inicial del Laboratorio 1:
+Para demostrar el bug inicial del ejercicio 2:
 
 ```powershell
 uvicorn app.main:app --app-dir backend --reload
@@ -60,7 +60,7 @@ Texto exacto sugerido:
 El caso del dia es una aplicacion web de notas, sencilla y completamente local. La aplicacion tiene un bug que impide el arranque. El objetivo no es solo arreglarla, sino aprender a usar Copilot para entender primero el problema, acotar la solucion y ejecutarla con control.
 ```
 
-## Bloque 1: Lab 1 Ask, Plan y Agent
+## Bloque 1: Ejercicios 1–4 (Ask, Plan y Agent)
 
 ### Objetivo docente del bloque 1
 
@@ -154,7 +154,7 @@ pytest backend\tests\test_notes_page.py
 - Si propone demasiados archivos, recuerda que el objetivo es un slice pequeño.
 - Si el grupo se atasca, usa la solucion del instructor para mostrar el siguiente paso.
 
-## Bloque 2: Lab 2 customizaciones para una nueva feature
+## Bloque 2: Ejercicios 5–8 (customizaciones para una nueva feature)
 
 ### Objetivo docente del bloque 2
 
@@ -170,7 +170,7 @@ Y que vea como esos mecanismos se aplican a una evolucion concreta del producto:
 ### Frase exacta recomendada
 
 ```text
-En este segundo laboratorio seguimos en la misma app de notas, pero cambiamos de tipo de trabajo. Ya no estamos corrigiendo un bug. Estamos preparando una feature nueva: persistir las notas en un archivo SQLite local con un cambio pequeno, incremental y facil de explicar.
+En este segundo bloque seguimos en la misma app de notas, pero cambiamos de tipo de trabajo. Ya no estamos corrigiendo un bug. Estamos preparando una feature nueva: persistir las notas en un archivo SQLite local con un cambio pequeno, incremental y facil de explicar.
 ```
 
 ### Paso previo obligatorio del bloque 2
@@ -310,8 +310,8 @@ La idea principal de hoy es que Copilot funciona mucho mejor cuando le pedimos p
 
 ### Si el grupo va lento
 
-1. Prioriza Lab 1 completo.
-2. Convierte el Lab 2 en una demo guiada donde solo muevan los archivos y usen el prompt reusable y las instructions.
+1. Prioriza los ejercicios 1–4 completos.
+2. Convierte los ejercicios 5–8 en una demo guiada donde solo muevan los archivos y usen el prompt reusable y las instructions.
 3. Deja skill y agent como explicacion dirigida por el docente.
 
 ### Si el grupo va rapido

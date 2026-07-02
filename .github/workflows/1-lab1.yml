@@ -1,4 +1,4 @@
-name: Step 1 - Validate Lab 1
+name: Step 1 - Validate Ejercicio 4
 
 on:
   pull_request:
@@ -6,15 +6,16 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
+  issues: write
 
 jobs:
-  validate-lab1:
-    name: Run Lab 1 tests
+  validate-ejercicio4:
+    name: Run Ejercicio 4 tests
     runs-on: ubuntu-latest
-    # Run on lab1/* branches, but not on merge events (handled by unlock-lab2)
-    if: startsWith(github.head_ref, 'lab1/') && github.event.action != 'closed'
+    # Run on ejercicio-4/* branches, but not on merge events (handled by unlock-ejercicios-5-8)
+    if: startsWith(github.head_ref, 'ejercicio-4/') && github.event.action != 'closed'
     steps:
       - uses: actions/checkout@v4
 
@@ -39,15 +40,15 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ## ✅ Lab 1 completado
+            ## ✅ Ejercicio 4 completado
 
-            Todos los tests pasan. Fusiona este PR para desbloquear el **Lab 2**.
+            Todos los tests pasan. Fusiona este PR para desbloquear los **ejercicios 5–8**.
 
             ```
             pytest backend/tests/ ✅
             ```
 
-            Una vez mergeado, recarga la página principal del repositorio para ver las instrucciones del Lab 2.
+            Una vez mergeado, el issue del Lab 1 se cerrará y se abrirá el del Lab 2 automáticamente.
 
       - name: Comment on failure
         if: failure()
@@ -55,7 +56,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ## ❌ Lab 1 — tests fallando
+            ## ❌ Ejercicio 4 — tests fallando
 
             Revisa el log de Actions y asegúrate de que:
             - La app arranca sin errores (`uvicorn app.main:app --app-dir backend --reload`)
@@ -64,21 +65,36 @@ jobs:
 
             **Pista**: el bug está en `backend/app/services/note_service.py`.
 
-  unlock-lab2:
-    name: Unlock Lab 2
+  unlock-ejercicios-5-8:
+    name: Unlock Ejercicios 5–8
     runs-on: ubuntu-latest
-    # Only run when a lab1/* PR is merged
-    if: startsWith(github.head_ref, 'lab1/') && github.event.pull_request.merged == true
+    # Only run when a ejercicio-4/* PR is merged
+    if: startsWith(github.head_ref, 'ejercicio-4/') && github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: main
 
-      - name: Update README to Lab 2 instructions
-        run: cp .github/steps/2-lab2.md README.md
+      - name: Close Lab 1 issue
+        run: |
+          ISSUE_NUMBER=$(gh issue list --label workshop-lab1 --state open --json number --jq '.[0].number')
+          if [ -n "$ISSUE_NUMBER" ]; then
+            gh issue close "$ISSUE_NUMBER" \
+              --comment "✅ Lab 1 completado — el Lab 2 ya está disponible en un nuevo issue."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit Lab 2 README
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: "chore: Lab 1 complete — Lab 2 instructions ready"
-          default_author: github_actions
+      - name: Create Lab 2 issue
+        run: |
+          gh label create "workshop-lab2" \
+            --description "Lab 2 — Ejercicios 5–8" \
+            --color "e4e669" 2>/dev/null || true
+          REPO="${{ github.repository }}"
+          BODY=$(sed "s|{{full_repo_name}}|${REPO}|g" .github/steps/2-lab2.md)
+          gh issue create \
+            --title "Lab 2 — Ejercicios 5–8: Customizaciones de Copilot" \
+            --body "$BODY" \
+            --label "workshop" \
+            --label "workshop-lab2"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
