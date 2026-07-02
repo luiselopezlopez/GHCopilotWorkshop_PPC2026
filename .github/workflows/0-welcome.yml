@@ -1,0 +1,27 @@
+name: Step 0 - Welcome
+
+on:
+  create:
+
+permissions:
+  contents: write
+
+jobs:
+  on-start:
+    name: Initialize workshop content
+    runs-on: ubuntu-latest
+    # Only run in copies of this template, not in the template itself
+    if: >
+      github.ref == format('refs/heads/{0}', github.event.repository.default_branch) &&
+      github.repository != 'luiselopezlopez/GHCopilotWorkshop_PPC2026'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Replace README with Lab 1 instructions
+        run: cp .github/steps/0-welcome.md README.md
+
+      - name: Commit welcome README
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "chore: start workshop — Lab 1 instructions ready"
+          default_author: github_actions

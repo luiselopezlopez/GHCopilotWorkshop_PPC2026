@@ -1,0 +1,84 @@
+name: Step 1 - Validate Lab 1
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  validate-lab1:
+    name: Run Lab 1 tests
+    runs-on: ubuntu-latest
+    # Run on lab1/* branches, but not on merge events (handled by unlock-lab2)
+    if: startsWith(github.head_ref, 'lab1/') && github.event.action != 'closed'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r backend/requirements.txt
+
+      - name: Compile backend
+        run: python -m compileall backend
+
+      - name: Run tests
+        id: tests
+        run: pytest backend/tests/ -v
+
+      - name: Comment on success
+        if: success()
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## ✅ Lab 1 completado
+
+            Todos los tests pasan. Fusiona este PR para desbloquear el **Lab 2**.
+
+            ```
+            pytest backend/tests/ ✅
+            ```
+
+            Una vez mergeado, recarga la página principal del repositorio para ver las instrucciones del Lab 2.
+
+      - name: Comment on failure
+        if: failure()
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## ❌ Lab 1 — tests fallando
+
+            Revisa el log de Actions y asegúrate de que:
+            - La app arranca sin errores (`uvicorn app.main:app --app-dir backend --reload`)
+            - `pytest backend/tests/test_notes_page.py` pasa
+            - `pytest backend/tests/test_health.py` pasa
+
+            **Pista**: el bug está en `backend/app/services/note_service.py`.
+
+  unlock-lab2:
+    name: Unlock Lab 2
+    runs-on: ubuntu-latest
+    # Only run when a lab1/* PR is merged
+    if: startsWith(github.head_ref, 'lab1/') && github.event.pull_request.merged == true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Update README to Lab 2 instructions
+        run: cp .github/steps/1-lab1.md README.md
+
+      - name: Commit Lab 2 README
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "chore: Lab 1 complete — Lab 2 instructions ready"
+          default_author: github_actions
