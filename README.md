@@ -1,40 +1,24 @@
-# GitHub Copilot Hands-on Lab
+# GitHub Copilot Workshop — PPC 2026
 
-Repositorio base para una sesion practica de 2 horas sobre GitHub Copilot.
+_Aprende a usar GitHub Copilot con ejercicios prácticos y guiados en menos de 2 horas._
 
-## Objetivos
+## Bienvenido
 
-- Hacer onboard de un codebase local con GitHub Copilot.
-- Usar Ask, Plan y Agent para diagnosticar y corregir un bug real.
-- Entender y aplicar prompts, instructions, skills y agents para añadir una feature nueva con un estilo de desarrollo estandar.
+- **Para quién**: Desarrolladores que quieren profundizar en GitHub Copilot.
+- **Qué aprenderás**: Ask, Plan y Agent para diagnosticar bugs; prompts, instructions, skills y agents para añadir features.
+- **Qué construirás**: Corregirás un bug real y añadirás customizaciones de Copilot a una app web de notas con FastAPI.
+- **Duración**: Menos de 2 horas.
 
-## Estructura
+## Cómo empezar
 
-- `backend/`: aplicacion web monolitica de notas con FastAPI y HTML renderizado en servidor.
-- `resources/`: plantillas de prompt, instructions, skill y agent que el alumno movera durante el laboratorio 2.
-- `docs/`: runbooks del alumno e instructor.
-- `deck/`: guion de slides y demo.
+Copia este ejercicio a tu cuenta de GitHub:
 
-## Flujo de la sesion
+[![Copiar ejercicio](https://img.shields.io/badge/Copiar%20Ejercicio-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/new?template_owner=luiselopezlopez&template_name=GHCopilotWorkshop_PPC2026&owner=%40me&name=GHCopilotWorkshop_PPC2026&description=GitHub+Copilot+Workshop+PPC2026&visibility=public)
 
-1. Preparar entorno y validar prerequisitos.
-2. Hacer onboard del codebase y diagnosticar un bug de arranque con Ask.
-3. Preparar un plan de correccion con Plan y ejecutarlo con Agent.
-4. Mover a `.github/` y preparar customizaciones para añadir persistencia SQLite en archivo local.
+Después de copiar, espera unos **20 segundos** y **recarga la página** para ver las instrucciones del primer ejercicio.
 
-## Arranque rapido
+> Si las instrucciones no aparecen en 20 segundos, comprueba la pestaña **Actions** de tu repositorio.
 
-### Aplicacion web
+---
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r backend\requirements.txt
-uvicorn app.main:app --app-dir backend --reload
-```
-
-### Tests
-
-```powershell
-pytest backend\tests
-```
+_© 2025 GitHub · [MIT License](https://gh.io/mit)_

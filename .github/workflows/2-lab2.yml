@@ -1,0 +1,91 @@
+name: Step 2 - Validate Lab 2
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  validate-lab2:
+    name: Check Lab 2 customizations
+    runs-on: ubuntu-latest
+    # Run on lab2/* branches, but not on merge events (handled by finish-workshop)
+    if: startsWith(github.head_ref, 'lab2/') && github.event.action != 'closed'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify all customization files exist and are non-empty
+        run: |
+          missing=0
+          files=(
+            ".github/copilot-instructions.md"
+            ".github/instructions/fastapi.instructions.md"
+            ".github/prompts/add-sqlite-persistence.prompt.md"
+            ".github/skills/notes-sqlite-persistence/SKILL.md"
+            ".github/agents/notes-feature-finisher.agent.md"
+          )
+          for f in "${files[@]}"; do
+            if [ ! -s "$f" ]; then
+              echo "❌ Falta o está vacío: $f"
+              missing=1
+            else
+              echo "✅ $f"
+            fi
+          done
+          exit $missing
+
+      - name: Comment on success
+        if: success()
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## ✅ Lab 2 completado
+
+            Todos los archivos de customización están en su lugar en `.github/`.
+
+            Fusiona este PR para **completar el workshop** 🎉
+
+      - name: Comment on failure
+        if: failure()
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## ❌ Lab 2 — faltan archivos de customización
+
+            Asegúrate de haber copiado los cinco archivos desde `resources/` a `.github/`:
+
+            ```bash
+            mkdir -p .github/instructions .github/prompts .github/skills/notes-sqlite-persistence .github/agents
+            cp resources/copilot-instructions.md .github/copilot-instructions.md
+            cp resources/instructions/fastapi.instructions.md .github/instructions/fastapi.instructions.md
+            cp resources/prompts/add-sqlite-persistence.prompt.md .github/prompts/add-sqlite-persistence.prompt.md
+            cp resources/skills/notes-sqlite-persistence/SKILL.md .github/skills/notes-sqlite-persistence/SKILL.md
+            cp resources/agents/notes-feature-finisher.agent.md .github/agents/notes-feature-finisher.agent.md
+            ```
+
+            Confirma que los archivos están incluidos en tu PR antes de volver a validar.
+
+  finish-workshop:
+    name: Mark workshop complete
+    runs-on: ubuntu-latest
+    # Only run when a lab2/* PR is merged
+    if: startsWith(github.head_ref, 'lab2/') && github.event.pull_request.merged == true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Update README to finish page
+        run: cp .github/steps/X-finish.md README.md
+
+      - name: Commit finish README
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "chore: workshop complete 🎉"
+          default_author: github_actions
